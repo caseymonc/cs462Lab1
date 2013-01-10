@@ -20,10 +20,12 @@ if DEV
   FOURSQUARE_CLIENT_ID = "KSWWRPJI53P5LBXLXU2US0KHPDSPCFJKBINFF110OGI5SPAV"
   FOURSQUARE_CLIENT_SECRET = "HS0J4HEKNI4QANL2SNCE0G54GGSPJFSW5450J0410MZCNF1W"
   CALLBACK_URL = "http://127.0.0.1:3000/auth/foursquare/callback"
+  PORT = 3000
 else
   FOURSQUARE_CLIENT_ID = "KSWWRPJI53P5LBXLXU2US0KHPDSPCFJKBINFF110OGI5SPAV"
   FOURSQUARE_CLIENT_SECRET = "HS0J4HEKNI4QANL2SNCE0G54GGSPJFSW5450J0410MZCNF1W"
   CALLBACK_URL = "http://ec2-23-21-172-122.compute-1.amazonaws.com/auth/foursquare/callback"
+  PORT = 80
 
 
 FOURSQUARE_INFO = {
@@ -84,5 +86,5 @@ exports.createServer = ->
 
 if module == require.main
   app = exports.createServer()
-  app.listen 3000
+  app.listen PORT
   console.log "Running Foursquare Service"
