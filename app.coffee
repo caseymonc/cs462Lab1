@@ -35,7 +35,7 @@ FOURSQUARE_INFO = {
                   }
 
 exports.createServer = ->
-  app = express()#.createServer()
+  app = express().createServer()
 
   
 
@@ -81,7 +81,7 @@ exports.createServer = ->
 
 
   app.get '/auth/foursquare/callback', passport.authenticate('foursquare', { "failureRedirect": '/login' }), (req, res) ->
-    res.redirect '/app'
+    res.send req.query
 
   # final return of app object
   app
