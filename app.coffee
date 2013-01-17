@@ -81,7 +81,7 @@ exports.createServer = ->
 
 
   app.get '/auth/foursquare/callback', (req, res) ->
-    res.send req.query
+    res.json req.query
 
   # final return of app object
   app
