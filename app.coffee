@@ -91,6 +91,9 @@ exports.createServer = ->
   app.get '/auth/foursquare/callback', passport.authenticate('foursquare', { failureRedirect: '/login' }), (req, res) ->
     res.redirect '/app'
 
+  app.get '/', ensureAuthenticated, (req, res) ->
+    res.json req.user
+
   # final return of app object
   app
 
@@ -98,3 +101,7 @@ if module == require.main
   app = exports.createServer()
   app.listen PORT
   console.log "Running Foursquare Service"
+
+ensureAuthenticated = (req, res, next)->
+  return next() if req.isAuthenticated()
+  res.redirect '/login'
