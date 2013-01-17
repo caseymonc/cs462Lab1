@@ -38,20 +38,19 @@ exports.createServer = ->
   app = express.createServer()
 
   
-
-  passport.use new FoursquareStrategy FOURSQUARE_INFO, (accessToken, refreshToken, profile, done) ->
-    user.findOrCreate { foursquareId: profile.id }, (err, user) ->
-      done(err, user)
-
-
   passport.serializeUser (user, done) ->
-    done(null, user.id)
-
-  passport.deserializeUser (id, done) ->
-    user.findById id, (err, user) ->
-      done(err, user)
+    done null, user
 
   
+  passport.deserializeUser (obj, done) ->
+      done null, obj
+
+  
+  passport.use new FoursquareStrategy FOURSQUARE_INFO, (accessToken, refreshToken, profile, done) ->
+    process.nextTick ()->
+      return done(null, profile)
+  
+
   app.configure ->
     app.use(express.cookieParser())
     app.use(express.bodyParser())
