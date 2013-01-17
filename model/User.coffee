@@ -14,7 +14,7 @@ module.exports = (db) ->
 
   # Get All Users for a group
   UserSchema.statics.findById = (id, cb) ->
-    @where("id").in(id).exec cb
+    @findOne({"foursquareId": id}).exec cb
 
   # Get a user by id
   UserSchema.statics.findOrCreate = (data, cb) ->

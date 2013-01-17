@@ -39,7 +39,7 @@ exports.createServer = ->
 
   
   passport.serializeUser (user, done) ->
-    done null, user.id
+    done null, user.foursquareId
 
   
   passport.deserializeUser (id, done) ->
