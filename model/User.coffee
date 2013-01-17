@@ -5,7 +5,10 @@ Schema = mongoose.Schema
 module.exports = (db) ->
 
   UserSchema = new Schema {
-    foursquareId: {type: String, required:true, unique: true}
+    foursquareId: {type: String, required:true, unique: true},
+    name: String,
+    gender: String,
+    emails: [String]
   }
 
 
