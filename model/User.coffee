@@ -6,9 +6,9 @@ module.exports = (db) ->
 
   UserSchema = new Schema {
     foursquareId: {type: String, required:true, unique: true},
-    name: String,
+    name: {familyName: String, givenName: String},
     gender: String,
-    emails: [String]
+    emails: [{value: String}]
   }
 
 
