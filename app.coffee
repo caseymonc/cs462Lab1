@@ -35,7 +35,7 @@ FOURSQUARE_INFO = {
                   }
 
 exports.createServer = ->
-  app = express().createServer()
+  app = express.createServer()
 
   
 
