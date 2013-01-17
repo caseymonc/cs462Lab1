@@ -39,11 +39,12 @@ exports.createServer = ->
 
   
   passport.serializeUser (user, done) ->
-    done null, user
+    done null, user.id
 
   
-  passport.deserializeUser (obj, done) ->
-      done null, obj
+  passport.deserializeUser (id, done) ->
+    user.findById id, (err, user) ->
+      done null, user
 
   
   passport.use new FoursquareStrategy FOURSQUARE_INFO, (accessToken, refreshToken, profile, done) ->
