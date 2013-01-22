@@ -35,7 +35,7 @@ FOURSQUARE_INFO = {
                   }
 
 exports.createServer = ->
-  app = express.createServer()
+  app = express()
 
   
   passport.serializeUser (user, done) ->
@@ -71,7 +71,7 @@ exports.createServer = ->
     app.use(app.router)
     app.use(express.static(__dirname + "/public"))
 
-  app.get "/app", (req, res) ->
+  app.get "/app", ensureAuthenticated, (req, res) ->
     fs.readFile './public/index.html', (err, content) ->
       console.log content
       res.contentType ".html"
