@@ -1,0 +1,25 @@
+#main{
+	height: 100%;
+	width: 100%;
+
+}
+
+#login{
+	height: 300px;
+	width: 400px;
+	margin: auto;
+	margin-top: 10%;
+}
+
+#login input{
+	font-size: 15pt;
+}
+
+#login a img{
+	margin-left:50px;
+}
+
+#buttonWrapper{
+	width: 150px;
+	margin: auto;
+}
