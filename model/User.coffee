@@ -9,8 +9,8 @@ module.exports = (db) ->
     name: {familyName: String, givenName: String},
     gender: String,
     emails: [{value: String}],
-    username:{type: String, required:true, unique: true},
-    password:{type: String, required:true, unique: true}
+    username: String,
+    password: String
   }
 
 
