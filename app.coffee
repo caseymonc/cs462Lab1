@@ -68,14 +68,21 @@ exports.createServer = ->
     app.use(passport.initialize())
     app.use(passport.session())
     
+    app.set('view engine', 'jade')
     app.use(app.router)
     app.use(express.static(__dirname + "/public"))
+    app.set('views', __dirname + '/public')
 
-  app.get "/app", ensureAuthenticated, (req, res) ->
-    fs.readFile './public/index.html', (err, content) ->
-      console.log content
-      res.contentType ".html"
-      res.send content
+  app.get "/app", (req, res)->
+    ensureAuthenticated req, res, ()->
+      checkins = []
+      for i in [0...5]
+        checkins.push {name: "Jenny Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 1) == 0
+        checkins.push {name: "Casey Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 2) == 0
+        checkins.push {name: "Logan Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 3) == 0
+        checkins.push {name: "Oliver Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 4) == 0
+
+      res.render('login', {title: "Foursquare Checkins", checkins: checkins})
 
 
   app.get "/login", (req, res) ->
@@ -85,14 +92,24 @@ exports.createServer = ->
       res.send content
 
 
+  app.get '/view/jade', (req, res) ->
+    checkins = []
+    for i in [0...5]
+      checkins.push {name: "Jenny Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 1) == 0
+      checkins.push {name: "Casey Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 2) == 0
+      checkins.push {name: "Logan Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 3) == 0
+      checkins.push {name: "Oliver Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 4) == 0
+
+    res.render('login', {title: "Foursquare Checkins", checkins: checkins})
+
   app.get '/auth/foursquare', passport.authenticate('foursquare')
 
 
   app.get '/auth/foursquare/callback', passport.authenticate('foursquare', { failureRedirect: '/login' }), (req, res) ->
     res.redirect '/app'
 
-  app.get '/', ensureAuthenticated, (req, res) ->
-    res.json req.user
+  ###app.get '/', ensureAuthenticated, (req, res) ->
+    res.json req.user###
 
   # final return of app object
   app
