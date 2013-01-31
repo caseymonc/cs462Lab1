@@ -55,7 +55,7 @@ exports.createServer = ->
                     gender: profile.gender,
                     emails: profile.emails,
                   }
-      use = new user userData
+      use = user userData
       use.save (err) ->
         return done(null, use)
   
