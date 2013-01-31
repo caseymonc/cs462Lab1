@@ -8,7 +8,9 @@ module.exports = (db) ->
     foursquareId: {type: String, required:true, unique: true},
     name: {familyName: String, givenName: String},
     gender: String,
-    emails: [{value: String}]
+    emails: [{value: String}],
+    username:{type: String, required:true, unique: true},
+    password:{type: String, required:true, unique: true}
   }
 
 

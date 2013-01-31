@@ -82,14 +82,19 @@ exports.createServer = ->
         checkins.push {name: "Logan Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 3) == 0
         checkins.push {name: "Oliver Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 4) == 0
 
-      res.render('login', {title: "Foursquare Checkins", checkins: checkins})
+      res.render('app', {title: "Foursquare Checkins", checkins: checkins})
 
 
-  app.get "/login", (req, res) ->
-    fs.readFile './public/login.html', (err, content) ->
-      console.log content
-      res.contentType ".html"
-      res.send content
+  app.get "/login", (req, res)->
+    return res.redirect '/login/foursquare'# if req.session.user_id?
+    res.render('login', {title: "Driver Login"})
+
+  app.get "/login/foursquare", (req, res) ->
+    ensureUserAuthenticated req, res, ()->
+      return res.redirect '/app' if req.isAuthenticated()
+      res.render('login_foursquare', {title: "Foursquare Login"})
+
+  app.post "/login", (req, res)->
 
 
   app.get '/view/jade', (req, res) ->
@@ -120,5 +125,13 @@ if module == require.main
   console.log "Running Foursquare Service"
 
 ensureAuthenticated = (req, res, next)->
-  return next() if req.isAuthenticated()
+  ensureUserAuthenticated req, res, ()->
+    ensureFoursquareAuthenticated req, res, next
+
+ensureUserAuthenticated = (req, res, next)->
+  return next() #if req.session.user_id?
   res.redirect '/login'
+
+ensureFoursquareAuthenticated = (req, res, next)->
+  return next() if req.isAuthenticated()
+  res.redirect '/login/foursquare'

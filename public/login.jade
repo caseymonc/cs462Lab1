@@ -1,15 +1,22 @@
 extends layout
 
+append scripts
+	link(rel="stylesheet", href="/login.css")
 
 block header
 	h1 #{title}
 
 block content
-	mixin listItem(name, location, time)
-		li(data-icon="false"): a #{name} checked in at #{location}
-	ul(data-role="listview")
-		each checkin in checkins
-			+listItem(checkin.name, checkin.location, checkin.time)
+	#main
+		#login
+			input(type="text", name="username", id="username", value="", placeholder="Username")
+			input(type="password", name="password", id="password", value="", placeholder="Password")
+			#buttonWrapper
+				input(type="button", name="loginButton", id="loginButton", value="", value="Login")
+
+
+block footer
+
 
 
 	
