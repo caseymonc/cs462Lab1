@@ -9,10 +9,11 @@ block header
 block content
 	#main
 		#login
-			input(type="text", name="username", id="username", value="", placeholder="Username")
-			input(type="password", name="password", id="password", value="", placeholder="Password")
-			#buttonWrapper
-				input(type="button", name="loginButton", id="loginButton", value="", value="Login")
+			form(name="loginForm", action="/login", method="post")
+				input(type="text", name="username", id="username", value="", placeholder="Username")
+				input(type="password", name="password", id="password", value="", placeholder="Password")
+				#buttonWrapper
+					input(type="submit", name="loginButton", id="loginButton", value="", value="Login")
 
 
 block footer

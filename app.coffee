@@ -76,7 +76,7 @@ exports.createServer = ->
   app.get "/app", (req, res)->
     ensureAuthenticated req, res, ()->
       checkins = []
-      for i in [0...5]
+      for i in [0...20]
         checkins.push {name: "Jenny Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 1) == 0
         checkins.push {name: "Casey Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 2) == 0
         checkins.push {name: "Logan Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 3) == 0
@@ -86,16 +86,28 @@ exports.createServer = ->
 
 
   app.get "/login", (req, res)->
-    return res.redirect '/login/foursquare'# if req.session.user_id?
+    return res.redirect '/login/foursquare' if req.session.user?
     res.render('login', {title: "Driver Login"})
+
+
+  app.get "/logout", (req, res)->
+    res.session.user = null
+    res.redirect '/login'
+
+  app.post "/login", (req, res)->
+    res.redirect "/login" unless (req.body.username? and req.body.password)
+    user = {username: req.body.username, password: req.body.password}
+    req.session.user = user
+    res.redirect '/login/foursquare'
 
   app.get "/login/foursquare", (req, res) ->
     ensureUserAuthenticated req, res, ()->
       return res.redirect '/app' if req.isAuthenticated()
       res.render('login_foursquare', {title: "Foursquare Login"})
 
-  app.post "/login", (req, res)->
-
+  app.get "/logout/foursquare", (req, res) ->
+    req.logout()
+    res.redirect '/logout/foursquare'
 
   app.get '/view/jade', (req, res) ->
     checkins = []
@@ -129,7 +141,7 @@ ensureAuthenticated = (req, res, next)->
     ensureFoursquareAuthenticated req, res, next
 
 ensureUserAuthenticated = (req, res, next)->
-  return next() #if req.session.user_id?
+  return next() if req.session.user?
   res.redirect '/login'
 
 ensureFoursquareAuthenticated = (req, res, next)->
