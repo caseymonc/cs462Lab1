@@ -49,12 +49,7 @@ exports.createServer = ->
   
   passport.use new FoursquareStrategy FOURSQUARE_INFO, (accessToken, refreshToken, profile, done) ->
     process.nextTick ()->
-      userData = {
-                    foursquareId: profile.id,
-                    name: profile.name,
-                    gender: profile.gender,
-                    emails: profile.emails
-                  }
+      userData = {foursquareId: profile.id, name: profile.name, gender: profile.gender, emails: profile.emails}
       user use = new user userData
       use.save (err) ->
         return done(null, use)
