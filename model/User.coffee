@@ -5,10 +5,6 @@ Schema = mongoose.Schema
 module.exports = (db) ->
 
   UserSchema = new Schema {
-    foursquareId: {type: String, required:true, unique: true},
-    name: {familyName: String, givenName: String},
-    gender: String,
-    emails: [{value: String}],
     username: String,
     password: String
   }
@@ -16,11 +12,11 @@ module.exports = (db) ->
 
   # Get All Users for a group
   UserSchema.statics.findById = (id, cb) ->
-    @findOne({"foursquareId": id}).exec cb
+    @findOne({"_id": id}).exec cb
 
   # Get a user by id
   UserSchema.statics.findOrCreate = (data, cb) ->
-    @findOne({"foursquareId": data.foursquareId}).exec (err, user) ->
+    @findOne({"_id": data.foursquareId}).exec (err, user) ->
 
 
 

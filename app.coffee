@@ -2,8 +2,9 @@ express = require 'express'
 fs = require 'fs'
 MemoryStore = require('express').session.MemoryStore
 Mongoose = require 'mongoose'
-UserController = require './control/users'
-User = require './model/User'
+
+UserModel = require './model/User'
+AccountModel = require './model/Account'
 passport = require 'passport'
 LocalStrategy = require('passport-local').Strategy
 FoursquareStrategy = require('passport-foursquare').Strategy
@@ -11,8 +12,10 @@ FoursquareStrategy = require('passport-foursquare').Strategy
 
 DB = process.env.DB || 'mongodb://localhost:27017/moncurflix'
 db = Mongoose.createConnection DB
-user = User db
-userController = UserController user
+User = UserModel db
+UserController = require('./control/users')(User)
+
+Account = AccountModel db
 
 DEV = false
 
@@ -38,21 +41,21 @@ exports.createServer = ->
   app = express()
 
   
-  passport.serializeUser (user, done) ->
-    done null, user.foursquareId
+  passport.serializeUser (account, done) ->
+    done null, account.foursquareId
 
   
   passport.deserializeUser (id, done) ->
-    user.findById id, (err, user) ->
+    Account.findById id, (err, user) ->
       done null, user
 
   
   passport.use new FoursquareStrategy FOURSQUARE_INFO, (accessToken, refreshToken, profile, done) ->
     process.nextTick ()->
-      userData = {foursquareId: profile.id, name: profile.name, gender: profile.gender, emails: profile.emails}
-      use = new user userData
-      use.save (err) ->
-        return done(null, use)
+      accountData = {foursquareId: profile.id, name: profile.name, gender: profile.gender, emails: profile.emails}
+      account = new Account accountData
+      account.save (err) ->
+        return done(null, account)
   
 
   app.configure ->
@@ -81,8 +84,8 @@ exports.createServer = ->
 
 
   app.get "/login", (req, res)->
-    return res.redirect '/login/foursquare' if req.session.user?
-    res.render('login', {title: "Driver Login"})
+    return res.redirect '/login/foursquare'
+    #res.render('login', {title: "Driver Login"})
 
 
   app.get "/logout", (req, res)->
@@ -118,6 +121,7 @@ exports.createServer = ->
 
 
   app.get '/auth/foursquare/callback', passport.authenticate('foursquare', { failureRedirect: '/login' }), (req, res) ->
+
     res.redirect '/app'
 
   ###app.get '/', ensureAuthenticated, (req, res) ->
@@ -136,8 +140,8 @@ ensureAuthenticated = (req, res, next)->
     ensureFoursquareAuthenticated req, res, next
 
 ensureUserAuthenticated = (req, res, next)->
-  return next() if req.session.user?
-  res.redirect '/login'
+  return next() #if req.session.user?
+  #res.redirect '/login'
 
 ensureFoursquareAuthenticated = (req, res, next)->
   return next() if req.isAuthenticated()
