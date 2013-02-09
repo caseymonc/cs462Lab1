@@ -10,10 +10,12 @@ LocalStrategy = require('passport-local').Strategy
 FoursquareStrategy = require('passport-foursquare').Strategy
 
 
-DB = process.env.DB || 'mongodb://localhost:27017/moncurflix'
+DB = process.env.DB || 'mongodb://localhost:27017/shop'
 db = Mongoose.createConnection DB
 User = UserModel db
 UserController = require('./control/users')(User)
+
+mongomate = require('mongomate')('mongodb://localhost');
 
 Account = AccountModel db
 
@@ -65,6 +67,7 @@ exports.createServer = ->
     app.use(express.session({ secret: 'keyboard cat' }))
     app.use(passport.initialize())
     app.use(passport.session())
+    app.use('/db', mongomate);
     
     app.set('view engine', 'jade')
     app.use(app.router)
@@ -121,7 +124,6 @@ exports.createServer = ->
 
 
   app.get '/auth/foursquare/callback', passport.authenticate('foursquare', { failureRedirect: '/login' }), (req, res) ->
-
     res.redirect '/app'
 
   ###app.get '/', ensureAuthenticated, (req, res) ->
