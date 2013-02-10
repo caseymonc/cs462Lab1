@@ -47,7 +47,7 @@ exports.createServer = ->
 
   app = express()
 
-  server = https.createServer({key: privateKey, cert: certificate}}, app).listen PORT, ()->
+  server = https.createServer({key: privateKey, cert: certificate}, app).listen PORT, ()->
     console.log "Running Foursquare Service on port: " + PORT
   
   passport.serializeUser (account, done) ->
