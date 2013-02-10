@@ -95,7 +95,10 @@ exports.createServer = ->
 
   app.get "/profiles", (req, res)->
     Account.getAllAccounts (err, accounts)->
-      res.render('profiles', {users: accounts, title: "Users"})
+      logged_in = false
+      if req.user?
+        logged_in = true
+      res.render('profiles', {users: accounts, title: "Users", logged_in: logged_in})
 
   app.get "/login", (req, res)->
     return res.redirect '/login/foursquare'
