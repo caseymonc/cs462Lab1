@@ -132,7 +132,7 @@ exports.createServer = ->
         return res.redirect '/login/foursquare'
       Account.findById user.foursquareId, (err, account)->
         return res.redirect '/login/foursquare' if err? or not account?
-        res.user = account
+        req.user = account
         res.redirect '/app'
        
 
