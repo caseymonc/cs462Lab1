@@ -152,7 +152,7 @@ exports.createServer = ->
 if module == require.main
   app = exports.createServer()
   app.listen PORT
-  console.log "Running Foursquare Service"
+  console.log "Running Foursquare Service on port: " + PORT
 
 ensureAuthenticated = (req, res, next)->
   ensureUserAuthenticated req, res, ()->
