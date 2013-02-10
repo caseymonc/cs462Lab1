@@ -182,5 +182,6 @@ ensureUserAuthenticated = (req, res, next)->
   res.redirect '/login'
 
 ensureFoursquareAuthenticated = (req, res, next)->
+  console.log JSON.stringify req.user
   return next() if req.user?
   res.redirect '/login/foursquare'
