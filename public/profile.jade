@@ -7,7 +7,7 @@ block header
 
 block content
 	mixin listItem(name)
-		li(data-icon="false"): a #{name}
+		li(data-icon="false"): a #{name.givenName} #{name.familyName}
 	ul(data-role="listview")
 		each user in users
 			+listItem(user.name)
