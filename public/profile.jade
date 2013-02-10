@@ -4,8 +4,9 @@ extends layout
 block header
 	h1 #{title}
 	if logged_in
-		a(href="/login", rel="external", class="ui-btn-right") Login
+		a(href="/logout", rel="external", class="ui-btn-right") Logout
 	else
+		a(href="/login", rel="external", class="ui-btn-right") Login
 		a(href="/logout", rel="external", class="ui-btn-right") Logout
 
 block content
