@@ -3,6 +3,8 @@ extends layout
 
 block header
 	h1 #{title}
+	if logged_in
+		a(href="/login", rel="external", class="ui-btn-right") Login
 
 block content
 	mixin listItem(user, checkin)

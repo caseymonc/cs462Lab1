@@ -95,7 +95,7 @@ exports.createServer = ->
         json: true
       request options, (error, response, body)->
         console.log JSON.stringify body
-        res.render 'profile', {checkins: body.response.checkins.items, user: user, title: "Profile"}
+        res.render 'profile', {checkins: body.response.checkins.items, user: user, title: "Profile", logged_in: limit == 10}
 
 
 
