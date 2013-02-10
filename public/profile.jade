@@ -16,11 +16,10 @@ block content
 		var date = new Date(time*1000); return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()}
 
 	mixin listItem(user, checkin)
-		li(data-icon="false")
+		li
 			a 
 				h3(style="float:left") #{user.name.givenName} #{user.name.familyName} checked in at #{checkin.venue.name}
 				p(style="float:left") #{checkin.venue.location.city}, #{checkin.venue.location.state}
-				span(style="float:right") +getDate(#{checkin.createdAt})
 
 	ul(data-role="listview", data-inset="true")
 		each checkin in checkins
