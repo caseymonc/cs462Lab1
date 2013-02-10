@@ -9,6 +9,7 @@ passport = require 'passport'
 LocalStrategy = require('passport-local').Strategy
 FoursquareStrategy = require('passport-foursquare').Strategy
 
+request = require "request"
 
 DB = process.env.DB || 'mongodb://localhost:27017/shop'
 db = Mongoose.createConnection DB
@@ -82,6 +83,16 @@ exports.createServer = ->
         checkins.push {name: "Oliver Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 4) == 0
 
       res.render('app', {title: "Foursquare Checkins", checkins: checkins})
+
+
+  app.get '/profile/:user_id', (req, res)->
+    Account.findById req.params.user_id, (err, user)->
+      options = 
+        url: 'https://api.foursquare.com' + '/v2/users/'+req.params.user_id+'/checkins?oauth_token='+user.token+'&limit=10'
+        json: true
+      request options, (error, response, body)->
+        console.log body
+        res.render 'profile', {users: [], title: "Profile"}
 
 
 
