@@ -11,7 +11,7 @@ block header
 block content
 	mixin listItem(name, user_id, photo)
 		li(data-icon="false")
-			img(src="#{photo}")
+			img(src="#{photo}" class="ui-li-icon")
 			a(href="/profile/#{user_id}", rel="external") #{name.givenName} #{name.familyName}
 	ul(data-role="listview")
 		each user in users
