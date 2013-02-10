@@ -9,11 +9,12 @@ block header
 		a(href="/login", rel="external", class="ui-btn-right") Login
 
 block content
-	mixin listItem(name, user_id, photo)
+	mixin listItem(name, user_id, photo, city)
 		li(data-icon="false")
 			a(href="/profile/#{user_id}", rel="external") 
 				img(src="#{photo}")
 				h3 #{name.givenName} #{name.familyName}
+				p #{city}
 	ul(data-role="listview")
 		each user in users
-			+listItem(user.name, user.foursquareId, user.photo)
+			+listItem(user.name, user.foursquareId, user.photo, user.homeCity)

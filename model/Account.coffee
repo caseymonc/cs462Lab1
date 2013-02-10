@@ -11,7 +11,8 @@ module.exports = (db) ->
     emails: [{value: String}],
     user_id: String,
     token: String,
-    photo: String
+    photo: String,
+    homeCity: String
   }
 
 
