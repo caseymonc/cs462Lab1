@@ -87,8 +87,11 @@ exports.createServer = ->
 
   app.get '/profile/:user_id', (req, res)->
     Account.findById req.params.user_id, (err, user)->
+      limit = 1
+      if req.params.user_id == req.user.foursquareId
+        limit = 10
       options = 
-        url: 'https://api.foursquare.com' + '/v2/users/'+req.params.user_id+'/checkins?oauth_token='+user.token+'&limit=10'
+        url: 'https://api.foursquare.com' + '/v2/users/'+req.params.user_id+'/checkins?oauth_token='+user.token+'&limit=' + limit
         json: true
       request options, (error, response, body)->
         console.log JSON.stringify body
