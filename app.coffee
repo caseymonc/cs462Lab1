@@ -124,6 +124,7 @@ exports.createServer = ->
     res.redirect '/login'
 
   app.post "/login", (req, res)->
+    console.log "Post to /login"
     res.redirect "/login" unless (req.body.username? and req.body.password)
     data = {username: req.body.username, password: req.body.password}
     User.findOrCreate data (err, user, created)->
