@@ -16,7 +16,7 @@ block content
 		var date = new Date(time*1000); return date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()}
 
 	mixin listItem(user, checkin)
-		li(data-icon="false")
+		li(data-icon="arrow-r")
 			a(href="http://maps.google.com/maps?q=#{checkin.venue.location.lat},#{checkin.venue.location.lng}", rel="external")
 				h3 #{user.name.givenName} #{user.name.familyName} checked in at #{checkin.venue.name}
 				p #{checkin.venue.location.city}, #{checkin.venue.location.state}
