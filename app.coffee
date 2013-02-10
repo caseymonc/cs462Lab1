@@ -127,6 +127,7 @@ exports.createServer = ->
     res.redirect "/login" unless (req.body.username? and req.body.password)
     data = {username: req.body.username, password: req.body.password}
     User.findOrCreate data, (err, user, created)->
+      console.log JSON.stringify user 
       req.session.user = user
       if created or not user.foursquareId?
         return res.redirect '/login/foursquare'
