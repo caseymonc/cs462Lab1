@@ -20,7 +20,7 @@ block content
 			a 
 				h3(style="float:left") #{user.name.givenName} #{user.name.familyName} checked in at #{checkin.venue.name}
 				p(style="float:left") #{checkin.venue.location.city}, #{checkin.venue.location.state}
-				span(style="float:right") +getDate(checkin.createdAt)
+				span(style="float:right") +getDate(#{checkin.createdAt})
 
 	ul(data-role="listview", data-inset="true")
 		each checkin in checkins
