@@ -154,6 +154,7 @@ exports.createServer = ->
 
 if module == require.main
   app = exports.createServer()
+  app.listen 80
   
 
 ensureAuthenticated = (req, res, next)->
