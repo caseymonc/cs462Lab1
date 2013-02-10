@@ -120,7 +120,7 @@ exports.createServer = ->
   app.get "/logout", (req, res)->
     if req.session?.user?
       delete req.session.user
-    req.logout()
+    req.session.destroy()
     res.redirect '/login'
 
   app.post "/login", (req, res)->
@@ -144,7 +144,7 @@ exports.createServer = ->
       res.render('login_foursquare', {title: "Foursquare Login"})
 
   app.get "/logout/foursquare", (req, res) ->
-    req.logout()
+    req.session.destroy()
     res.redirect '/login/foursquare'
 
   app.get '/view/jade', (req, res) ->
