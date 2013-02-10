@@ -41,7 +41,10 @@ FOURSQUARE_INFO = {
                   }
 
 exports.createServer = ->
-  app = express()
+  privateKey = fs.readFileSync('./cert/server.key').toString();
+  certificate = fs.readFileSync('./cert/server.crt').toString(); 
+
+  app = express({key: privateKey, cert: certificate})
 
   
   passport.serializeUser (account, done) ->
