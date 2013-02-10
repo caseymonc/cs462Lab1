@@ -25,9 +25,9 @@ module.exports = (db) ->
       if not user?
         user = new User data
         user.save (err) ->
-          return cb(null, user)
+          return cb(null, user ,true)
       else
-        cb null, user
+        cb null, user, false
 
 
   User = db.model "User", UserSchema

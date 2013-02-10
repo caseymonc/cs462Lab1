@@ -128,7 +128,13 @@ exports.createServer = ->
     data = {username: req.body.username, password: req.body.password}
     User.findOrCreate data, (err, user, created)->
       req.session.user = user
-      res.redirect '/login/foursquare'
+      if created or not user.foursquareId?
+        return res.redirect '/login/foursquare'
+      Account.findById user.foursquareId, (err, account)->
+        return res.redirect '/login/foursquare' if err? or not account?
+        res.user = account
+        res.redirect '/app'
+       
 
   app.get "/login/foursquare", (req, res) ->
     console.log "Redirect received /login/foursquare"
