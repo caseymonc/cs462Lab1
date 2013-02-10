@@ -6,8 +6,8 @@ block header
 	a(href="/login", rel="external", class="ui-btn-right") Login
 
 block content
-	mixin listItem(name)
-		li(data-icon="false"): a #{name.givenName} #{name.familyName}
+	mixin listItem(name, user_id)
+		li(data-icon="false"): a(href="/profile/#{user_id}") #{name.givenName} #{name.familyName}
 	ul(data-role="listview")
 		each user in users
-			+listItem(user.name)
+			+listItem(user.name, user.foursquareId)
