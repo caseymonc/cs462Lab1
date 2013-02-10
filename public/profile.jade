@@ -2,6 +2,7 @@ extends layout
 
 
 block header
+	a(href="/profiles", rel="external") Users
 	h1 #{title}
 	if logged_in
 		a(href="/logout", rel="external", class="ui-btn-right") Logout
