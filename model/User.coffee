@@ -16,8 +16,14 @@ module.exports = (db) ->
 
   # Get a user by id
   UserSchema.statics.findOrCreate = (data, cb) ->
-    @findOne({"_id": data.foursquareId}).exec (err, user) ->
-
+    @findOne({"username": data.username}).exec (err, user) ->
+      return cb {error: "Database Error"} if err?
+      if not user?
+        user = new User data
+        user.save (err) ->
+          return cb(null, user)
+      else
+        cb null, user
 
 
   User = db.model "User", UserSchema

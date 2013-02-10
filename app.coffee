@@ -82,6 +82,9 @@ exports.createServer = ->
     app.use('/javascript', express.static(__dirname + "/public/javascript"))
 
 
+  app.get '/', (req, res)->
+    res.redirect '/app'
+
   app.get "/app", (req, res)->
     ensureAuthenticated req, res, ()->
       res.redirect '/profile/' + req.user.foursquareId
@@ -110,19 +113,22 @@ exports.createServer = ->
       res.render('profiles', {users: accounts, title: "Users", logged_in: logged_in})
 
   app.get "/login", (req, res)->
-    return res.redirect '/login/foursquare'
-    #res.render('login', {title: "Driver Login"})
+    #return res.redirect '/login/foursquare'
+    res.render('login', {title: "Login"})
 
 
   app.get "/logout", (req, res)->
+    if req.session?.user?
+      delete req.session.user
     req.logout()
     res.redirect '/login'
 
   app.post "/login", (req, res)->
     res.redirect "/login" unless (req.body.username? and req.body.password)
-    user = {username: req.body.username, password: req.body.password}
-    req.session.user = user
-    res.redirect '/login/foursquare'
+    data = {username: req.body.username, password: req.body.password}
+    User.findOrCreate data (err, user, created)->
+      req.session.user = user
+      res.redirect '/login/foursquare'
 
   app.get "/login/foursquare", (req, res) ->
     ensureUserAuthenticated req, res, ()->
@@ -131,7 +137,7 @@ exports.createServer = ->
 
   app.get "/logout/foursquare", (req, res) ->
     req.logout()
-    res.redirect '/logout/foursquare'
+    res.redirect '/login/foursquare'
 
   app.get '/view/jade', (req, res) ->
     checkins = []
@@ -147,10 +153,9 @@ exports.createServer = ->
 
 
   app.get '/auth/foursquare/callback', passport.authenticate('foursquare', { failureRedirect: '/login' }), (req, res) ->
+    userId = res.user._id + ""
+    console.log userId
     res.redirect '/app'
-
-  ###app.get '/', ensureAuthenticated, (req, res) ->
-    res.json req.user###
 
   # final return of app object
   app
