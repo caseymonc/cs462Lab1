@@ -14,6 +14,9 @@ module.exports = (db) ->
   }
 
 
+  AccountSchema.statics.getAllAccounts = (cb) ->
+    @find().exec cb
+
   # Get All Users for a group
   AccountSchema.statics.findById = (id, cb) ->
     @findOne({"foursquareId": id}).exec cb
