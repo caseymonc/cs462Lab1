@@ -127,15 +127,11 @@ exports.createServer = ->
     res.redirect "/login" unless (req.body.username? and req.body.password)
     data = {username: req.body.username, password: req.body.password}
     User.findOrCreate data, (err, user, created)->
-      console.log JSON.stringify user 
       req.session.user = user
       if created or not user.foursquareId?
-        console.log "Created: " + created + " FoursquareId: " + user.foursquareId
         return res.redirect '/login/foursquare'
       Account.findById user.foursquareId, (err, account)->
-        console.log "Account: " + JSON.stringify account
         return res.redirect '/login/foursquare' if err? or not account?
-        console.log "Logged in"
         res.user = account
         res.redirect '/app'
        
@@ -143,7 +139,7 @@ exports.createServer = ->
   app.get "/login/foursquare", (req, res) ->
     console.log "Redirect received /login/foursquare"
     ensureUserAuthenticated req, res, ()->
-      return res.redirect '/app' if req.isAuthenticated()
+      return res.redirect '/app' if req.user?
       res.render('login_foursquare', {title: "Foursquare Login"})
 
   app.get "/logout/foursquare", (req, res) ->
@@ -185,5 +181,5 @@ ensureUserAuthenticated = (req, res, next)->
   #res.redirect '/login'
 
 ensureFoursquareAuthenticated = (req, res, next)->
-  return next() if req.isAuthenticated()
+  return next() if req.user?
   res.redirect '/login/foursquare'
