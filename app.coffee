@@ -128,9 +128,11 @@ exports.createServer = ->
     data = {username: req.body.username, password: req.body.password}
     User.findOrCreate data (err, user, created)->
       req.session.user = user
+      console.log "Redirect to /login/foursquare"
       res.redirect '/login/foursquare'
 
   app.get "/login/foursquare", (req, res) ->
+    console.log "Redirect received /login/foursquare"
     ensureUserAuthenticated req, res, ()->
       return res.redirect '/app' if req.isAuthenticated()
       res.render('login_foursquare', {title: "Foursquare Login"})
