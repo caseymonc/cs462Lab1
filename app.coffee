@@ -55,9 +55,7 @@ exports.createServer = ->
   passport.use new FoursquareStrategy FOURSQUARE_INFO, (accessToken, refreshToken, profile, done) ->
     process.nextTick ()->
       accountData = {foursquareId: profile.id, name: profile.name, gender: profile.gender, emails: profile.emails}
-      account = new Account accountData
-      account.save (err) ->
-        return done(null, account)
+      Account.findOrCreate accountData, done
   
 
   app.configure ->
