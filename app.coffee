@@ -90,7 +90,7 @@ exports.createServer = ->
 
 
   app.get "/logout", (req, res)->
-    res.session.user = null
+    res.logout
     res.redirect '/login'
 
   app.post "/login", (req, res)->
