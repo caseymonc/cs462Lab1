@@ -10,7 +10,7 @@ block header
 
 block content
 	mixin listItem(name, user_id, photo, city)
-		li(data-icon="false")
+		li(data-icon="arrow-r")
 			a(href="/profile/#{user_id}", rel="external") 
 				img(src="#{photo}")
 				h3 #{name.givenName} #{name.familyName}
