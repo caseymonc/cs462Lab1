@@ -133,6 +133,7 @@ exports.createServer = ->
       Account.findById user.foursquareId, (err, account)->
         return res.redirect '/login/foursquare' if err? or not account?
         req.user = account
+        console.log "Redirect /app"
         res.redirect '/app'
        
 
@@ -177,8 +178,8 @@ ensureAuthenticated = (req, res, next)->
     ensureFoursquareAuthenticated req, res, next
 
 ensureUserAuthenticated = (req, res, next)->
-  return next() #if req.session.user?
-  #res.redirect '/login'
+  return next() if req.session?.user?
+  res.redirect '/login'
 
 ensureFoursquareAuthenticated = (req, res, next)->
   return next() if req.user?
