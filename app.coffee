@@ -84,6 +84,10 @@ exports.createServer = ->
       res.render('app', {title: "Foursquare Checkins", checkins: checkins})
 
 
+  app.get "/profile", (req, res)->
+    ensureAuthenticated req, res, ()->
+      req.render('profile', {user: req.user})
+
   app.get "/login", (req, res)->
     return res.redirect '/login/foursquare'
     #res.render('login', {title: "Driver Login"})

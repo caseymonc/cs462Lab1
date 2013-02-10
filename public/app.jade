@@ -3,6 +3,7 @@ extends layout
 
 block header
 	h1 #{title}
+	a(href="/logout", rel="external", class="ui-btn-right") Logout
 
 block content
 	mixin listItem(name, location, time)
