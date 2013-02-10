@@ -92,14 +92,14 @@ exports.createServer = ->
         json: true
       request options, (error, response, body)->
         console.log JSON.stringify body
-        res.render 'profile', {users: [], title: "Profile"}
+        res.render 'profile', {checkins: body.checkins.items, user: user, title: "Profile"}
 
 
 
 
   app.get "/profiles", (req, res)->
     Account.getAllAccounts (err, accounts)->
-      res.render('profile', {users: accounts, title: "Users"})
+      res.render('profiles', {users: accounts, title: "Users"})
 
   app.get "/login", (req, res)->
     return res.redirect '/login/foursquare'
