@@ -93,7 +93,7 @@ exports.createServer = ->
   app.get '/profile/:user_id', (req, res)->
     Account.findById req.params.user_id, (err, user)->
       limit = 1
-      if req.user? && req.params.user_id == req.user.foursquareId
+      if req.session?.account? && req.params.user_id == req.session.account.foursquareId
         limit = 10
       options = 
         url: 'https://api.foursquare.com' + '/v2/users/'+req.params.user_id+'/checkins?oauth_token='+user.token+'&limit=' + limit
@@ -108,7 +108,7 @@ exports.createServer = ->
   app.get "/profiles", (req, res)->
     Account.getAllAccounts (err, accounts)->
       logged_in = false
-      if req.user?
+      if req.session?.account?
         logged_in = true
       res.render('profiles', {users: accounts, title: "Users", logged_in: logged_in})
 
@@ -132,7 +132,7 @@ exports.createServer = ->
         return res.redirect '/login/foursquare'
       Account.findById user.foursquareId, (err, account)->
         return res.redirect '/login/foursquare' if err? or not account?
-        req.user = account
+        req.session.account = account
         console.log "Redirect /app"
         res.redirect '/app'
        
@@ -140,7 +140,7 @@ exports.createServer = ->
   app.get "/login/foursquare", (req, res) ->
     console.log "Redirect received /login/foursquare"
     ensureUserAuthenticated req, res, ()->
-      return res.redirect '/app' if req.user?
+      return res.redirect '/app' if req.session?.account?
       res.render('login_foursquare', {title: "Foursquare Login"})
 
   app.get "/logout/foursquare", (req, res) ->
@@ -161,6 +161,7 @@ exports.createServer = ->
 
 
   app.get '/auth/foursquare/callback', passport.authenticate('foursquare', { failureRedirect: '/login' }), (req, res) ->
+    req.session.account = req.user
     req.session.user.foursquareId = req.user.foursquareId
     User.addAccount req.user.foursquareId, req.session.user.username, ()->
       res.redirect '/app'
@@ -183,5 +184,5 @@ ensureUserAuthenticated = (req, res, next)->
 
 ensureFoursquareAuthenticated = (req, res, next)->
   console.log JSON.stringify req.user
-  return next() if req.user?
+  return next() if req.session?.account?
   res.redirect '/login/foursquare'
