@@ -5,9 +5,9 @@ block header
 	a(href="/profiles", data-transition="slide", data-direction="reverse") Users
 	h1 #{title}
 	if logged_in
-		a(href="/logout", class="ui-btn-right") Logout
+		a(href="/logout", class="ui-btn-right", rel="external") Logout
 	else
-		a(href="/login", class="ui-btn-right") Login
+		a(href="/login", class="ui-btn-right", rel="external") Login
 
 block content
 

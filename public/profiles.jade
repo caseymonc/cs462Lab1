@@ -4,9 +4,9 @@ extends layout
 block header
 	h1 #{title}
 	if logged_in
-		a(href="/logout", class="ui-btn-right") Logout
+		a(href="/logout", class="ui-btn-right", rel="external") Logout
 	else
-		a(href="/login", class="ui-btn-right") Login
+		a(href="/login", class="ui-btn-right", rel="external") Login
 
 block content
 	mixin listItem(name, user_id, photo, city)
