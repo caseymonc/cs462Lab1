@@ -2,12 +2,12 @@ extends layout
 
 
 block header
-	a(href="/profiles", rel="external") Users
+	a(href="/profiles", data-transition="slide", data-direction="reverse") Users
 	h1 #{title}
 	if logged_in
-		a(href="/logout", rel="external", class="ui-btn-right") Logout
+		a(href="/logout", class="ui-btn-right") Logout
 	else
-		a(href="/login", rel="external", class="ui-btn-right") Login
+		a(href="/login", class="ui-btn-right") Login
 
 block content
 

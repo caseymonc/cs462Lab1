@@ -4,14 +4,14 @@ extends layout
 block header
 	h1 #{title}
 	if logged_in
-		a(href="/logout", rel="external", class="ui-btn-right") Logout
+		a(href="/logout", class="ui-btn-right") Logout
 	else
-		a(href="/login", rel="external", class="ui-btn-right") Login
+		a(href="/login", class="ui-btn-right") Login
 
 block content
 	mixin listItem(name, user_id, photo, city)
 		li(data-icon="arrow-r")
-			a(href="/profile/#{user_id}", rel="external") 
+			a(href="/profile/#{user_id}", data-transition="slide") 
 				img(src="#{photo}")
 				h3 #{name.givenName} #{name.familyName}
 				p #{city}
