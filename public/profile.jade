@@ -11,7 +11,11 @@ block header
 
 block content
 	mixin listItem(user, checkin)
-		li(data-icon="false"): a #{user.name.givenName} #{user.name.familyName} checked in at #{checkin.venue.name}
+		li(data-icon="false")
+			a 
+				#{user.name.givenName} #{user.name.familyName} checked in at #{checkin.venue.name}
+				span(style="float:right") test
+
 	ul(data-role="listview", data-inset="true")
 		each checkin in checkins
 			+listItem(user, checkin)
