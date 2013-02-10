@@ -75,14 +75,7 @@ exports.createServer = ->
 
   app.get "/app", (req, res)->
     ensureAuthenticated req, res, ()->
-      checkins = []
-      for i in [0...20]
-        checkins.push {name: "Jenny Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 1) == 0
-        checkins.push {name: "Casey Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 2) == 0
-        checkins.push {name: "Logan Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 3) == 0
-        checkins.push {name: "Oliver Moncur", location: "Burger King", time: "2012-12-05T12:12:12Z0000"} if (i % 4) == 0
-
-      res.render('app', {title: "Foursquare Checkins", checkins: checkins})
+      res.redirect '/profile/' + req.user.foursquareId
 
 
   app.get '/profile/:user_id', (req, res)->
