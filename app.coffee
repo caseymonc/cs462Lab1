@@ -10,6 +10,7 @@ LocalStrategy = require('passport-local').Strategy
 FoursquareStrategy = require('passport-foursquare').Strategy
 
 request = require "request"
+https = require('https')
 
 DB = process.env.DB || 'mongodb://localhost:27017/shop'
 db = Mongoose.createConnection DB
@@ -44,8 +45,10 @@ exports.createServer = ->
   privateKey = fs.readFileSync('./cert/server.key').toString();
   certificate = fs.readFileSync('./cert/server.crt').toString(); 
 
-  app = express({key: privateKey, cert: certificate})
+  app = express()
 
+  server = https.createServer(options, app).listen PORT, ()->
+    console.log "Running Foursquare Service on port: " + PORT
   
   passport.serializeUser (account, done) ->
     done null, account.foursquareId
@@ -151,8 +154,7 @@ exports.createServer = ->
 
 if module == require.main
   app = exports.createServer()
-  app.listen PORT
-  console.log "Running Foursquare Service on port: " + PORT
+  
 
 ensureAuthenticated = (req, res, next)->
   ensureUserAuthenticated req, res, ()->
