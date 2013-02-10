@@ -6,7 +6,8 @@ module.exports = (db) ->
 
   UserSchema = new Schema {
     username: String,
-    password: String
+    password: String,
+    foursquareId: String
   }
 
 
