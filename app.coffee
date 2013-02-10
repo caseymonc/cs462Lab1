@@ -91,7 +91,7 @@ exports.createServer = ->
         url: 'https://api.foursquare.com' + '/v2/users/'+req.params.user_id+'/checkins?oauth_token='+user.token+'&limit=10'
         json: true
       request options, (error, response, body)->
-        console.log body
+        console.log JSON.stringify body
         res.render 'profile', {users: [], title: "Profile"}
 
 
