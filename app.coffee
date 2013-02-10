@@ -88,7 +88,7 @@ exports.createServer = ->
   app.get '/profile/:user_id', (req, res)->
     Account.findById req.params.user_id, (err, user)->
       limit = 1
-      if req.params.user_id == req.user.foursquareId
+      if req.user? && req.params.user_id == req.user.foursquareId
         limit = 10
       options = 
         url: 'https://api.foursquare.com' + '/v2/users/'+req.params.user_id+'/checkins?oauth_token='+user.token+'&limit=' + limit
