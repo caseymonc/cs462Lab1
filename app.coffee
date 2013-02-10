@@ -78,6 +78,8 @@ exports.createServer = ->
     app.use(app.router)
     app.use(express.static(__dirname + "/public"))
     app.set('views', __dirname + '/public')
+    app.use('/javascript', express.static(__dirname + "/public/javascript"))
+
 
   app.get "/app", (req, res)->
     ensureAuthenticated req, res, ()->
