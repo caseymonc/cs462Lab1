@@ -130,9 +130,12 @@ exports.createServer = ->
       console.log JSON.stringify user 
       req.session.user = user
       if created or not user.foursquareId?
+        console.log "Created: " + created + " FoursquareId: " + user.foursquareId
         return res.redirect '/login/foursquare'
       Account.findById user.foursquareId, (err, account)->
+        console.log "Account: " + JSON.stringify account
         return res.redirect '/login/foursquare' if err? or not account?
+        console.log "Logged in"
         res.user = account
         res.redirect '/app'
        
