@@ -5,6 +5,8 @@ block header
 	h1 #{title}
 	if logged_in
 		a(href="/login", rel="external", class="ui-btn-right") Login
+	else
+		a(href="/logout", rel="external", class="ui-btn-right") Logout
 
 block content
 	mixin listItem(user, checkin)
