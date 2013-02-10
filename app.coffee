@@ -61,7 +61,8 @@ exports.createServer = ->
   
   passport.use new FoursquareStrategy FOURSQUARE_INFO, (accessToken, refreshToken, profile, done) ->
     process.nextTick ()->
-      accountData = {foursquareId: profile.id, name: profile.name, gender: profile.gender, emails: profile.emails, token: accessToken, photo: profile.response.user.photo}
+      console.log JSON.stringify profile
+      accountData = {foursquareId: profile.id, name: profile.name, gender: profile.gender, emails: profile.emails, token: accessToken, photo: profile._json.response.user.photo}
       Account.findOrCreate accountData, done
   
 
