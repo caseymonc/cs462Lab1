@@ -10,7 +10,8 @@ module.exports = (db) ->
     gender: String,
     emails: [{value: String}],
     user_id: String,
-    token: String
+    token: String,
+    photo: String
   }
 
 
