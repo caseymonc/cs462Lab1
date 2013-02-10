@@ -155,8 +155,8 @@ exports.createServer = ->
 
   app.get '/auth/foursquare/callback', passport.authenticate('foursquare', { failureRedirect: '/login' }), (req, res) ->
     req.session.user.foursquareId = req.user.foursquareId
-    req.session.user.save ()->
-    res.redirect '/app'
+    User.addAccount req.user.foursquareId, req.session.user.username, ()->
+      res.redirect '/app'
 
   # final return of app object
   app

@@ -12,8 +12,11 @@ module.exports = (db) ->
 
 
   # Get All Users for a group
-  UserSchema.statics.findById = (id, cb) ->
-    @findOne({"_id": id}).exec cb
+  UserSchema.statics.addAccount = (foursquareId, username, cb) ->
+    @findOne({"username": username}).exec (err, user)->
+      user.foursquareId = foursquareId
+      user.save()
+      cb()
 
   # Get a user by id
   UserSchema.statics.findOrCreate = (data, cb) ->
