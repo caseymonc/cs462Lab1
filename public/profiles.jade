@@ -15,6 +15,6 @@ block content
 				img(src="#{photo}")
 				h3 #{name.givenName} #{name.familyName}
 				p #{city}
-	ul(data-role="listview")
+	ul(data-role="listview", data-inset="true")
 		each user in users
 			+listItem(user.name, user.foursquareId, user.photo, user.homeCity)
